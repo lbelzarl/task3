@@ -26,3 +26,14 @@
 
 2. При загрузке страницы, возникает js ошибка: `Uncaught SyntaxError: missing ) after argument list :3000/js/worker.js:36`.
   * Убираем `;` в конце вызова метода [getFromCache](https://github.com/lbelzarl/task3/blob/8c5cfa4ac45677ade46118b68e17579243d55d35/client/js/worker.js#L36) - аргументы, передаваемые в функцию разделяются `,`, а точки с запятой не ставятся
+
+3. У Service worker указан scope как `/js/`, и поэтому он не может закешировать index.html, index.css.
+    * Перемещаем [worker.js](https://github.com/lbelzarl/task3/blob/8c5cfa4ac45677ade46118b68e17579243d55d35/client/js/worker.js#L3-L7) в корень проекта client, и указываем в нём новые пути к js и css:
+
+        ```js
+        var urlsToCache = [
+          '/',
+          '/css/index.css',
+          '/js/index.js'
+        ];
+        ```
