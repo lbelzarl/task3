@@ -45,3 +45,11 @@
             getFromCache(event.request).catch(fetchAndPutToCache.bind(this, event.request))
         );
         ```
+5. При скачивании нового ресурса, используется `Promise.race` - это не очень надёжная конструкция, т.к. мы не можем контролировать, какая операция вызовется быстрей и возвратит результат.
+    * Заменим вызов `fetchAndPutToCache` и одновременный `getFromCache` на скачивание результата через `fetchAndPutToCache`:
+
+        ```js
+        return event.respondWith(
+            fetchAndPutToCache(event.request)
+        );
+        ```
