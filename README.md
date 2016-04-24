@@ -37,3 +37,11 @@
           '/js/index.js'
         ];
         ```
+4. Если загрузить страницу, когда в кеше не будет данных, то после `getFromCache`, вызовется `fetchAndPutToCache`, но в аргументы ему не прокинется `event.request`, т.к.  `Promise.reject()` ничего не возвратит.
+    * Прокинем в `fetchAndPutToCache` объект запроса `event.request` с помощью `bind`:
+
+        ```js
+        return event.respondWith(
+            getFromCache(event.request).catch(fetchAndPutToCache.bind(this, event.request))
+        );
+        ```
